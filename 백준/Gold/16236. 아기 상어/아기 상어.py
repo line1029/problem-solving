@@ -2,7 +2,7 @@ from sys import stdin
 from collections import deque
 direc = ((-1, 0), (0, -1), (0, 1), (1, 0))
 def bfs(baby_shark, grid, n, size):
-    visited = [[int(val > size) for val in row] for row in grid]
+    visited = [[int(val > min(size, 6)) for val in row] for row in grid]
     q = deque([baby_shark])
     depth = 0
     candidates = []
