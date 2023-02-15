@@ -1,8 +1,9 @@
 from sys import stdin
 stdin.readline()
-stack = []
-for num in map(int, stdin.read().splitlines()):
-    while stack and stack[-1] <= num:
-        stack.pop()
-    stack.append(num)
-print(len(stack))
+last = 0
+cnt = 0
+for num in map(int, stdin.read().splitlines()[::-1]):
+    if num > last:
+        cnt += 1
+        last = num
+print(cnt)
