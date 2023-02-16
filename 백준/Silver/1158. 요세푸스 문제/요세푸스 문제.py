@@ -1,9 +1,8 @@
-from sys import stdin
-from collections import deque
-n, k = map(int, stdin.readline().split())
-seq = []
-queue = deque(map(str, range(1, n+1)))
-while queue:
-    queue.rotate(-k+1)
-    seq.append(queue.popleft())
-print(f'<{", ".join(seq)}>')
+n, k = map(int, input().split())
+people = list(range(1, n + 1))
+ans = []
+idx = 0
+while people:
+    idx = (idx + k - 1) % len(people)
+    ans.append(people.pop(idx))
+print("<" + ", ".join(map(str, ans)) + ">")
