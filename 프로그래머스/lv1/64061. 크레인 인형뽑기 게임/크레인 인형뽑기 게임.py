@@ -1,12 +1,11 @@
 def solution(board, moves):
     n = len(board)
-    board_turned = [[0]*n for _ in range(n)]
-    for i in range(n):
-        for j in range(n):
-            board_turned[j][n-1-i] = board[i][j]
-    for row in board_turned:
-        while row and row[-1] == 0:
-            row.pop()
+    board_turned = [[] for _ in range(n)]
+    for j in range(n):
+        for i in range(n - 1, -1, -1):
+            if board[i][j] == 0:
+                break
+            board_turned[j].append(board[i][j])
     stack = []
     cnt = 0
     for move in moves:
