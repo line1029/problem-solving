@@ -5,18 +5,6 @@ n, m = map(int, input().split())
 arr = list(map(int, input().split()))
 station_prev = [0]*1000001
 station_next = [0]*1000001
-def build_station(i, j):
-    station_prev[j] = i
-    station_next[j] = station_next[i]
-    station_prev[station_next[i]] = j
-    station_next[i] = j
-
-
-def cancel_station(i):
-    station_next[station_prev[i]] = station_next[i]
-    station_prev[station_next[i]] = station_prev[i]
-
-
 for i in range(n):
     station_prev[arr[i]] = arr[i - 1]
     station_next[arr[i - 1]] = arr[i]
@@ -25,17 +13,26 @@ for _ in range(m):
     if order[0] == 66:
         i, j = map(int, nums)
         if order[1] == 78:
-            ans.append(f"{station_next[i]}\n")
+            nex = station_next[i]
+            ans.append(f"{nex}\n")
+            station_next[j] = nex
+            station_prev[j] = i
+            station_next[i] = j
+            station_prev[nex] = j
         else:
-            ans.append(f"{station_prev[i]}\n")
-            i = station_prev[i]
-        build_station(i, j)
-    elif order[0] == 67:
+            pre = station_prev[i]
+            ans.append(f"{pre}\n")
+            station_next[j] = i
+            station_prev[j] = pre
+            station_prev[i] = j
+            station_next[pre] = j
+    else:
         i = int(nums[0])
         if order[1] == 78:
-            i = station_next[i]
+            pre, cur, nex = i, station_next[i], station_next[station_next[i]]
         else:
-            i = station_prev[i]
-        ans.append(f"{i}\n")
-        cancel_station(i)
+            pre, cur, nex = station_prev[station_prev[i]], station_prev[i], i
+        station_next[pre] = nex
+        station_prev[nex] = pre
+        ans.append(f"{cur}\n")
 os.write(1, ans.build().encode())
