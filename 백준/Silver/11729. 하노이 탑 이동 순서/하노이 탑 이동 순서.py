@@ -1,25 +1,15 @@
+from sys import stdout, stdin
+n = int(stdin.readline())
+stdout.write(f"{2**n - 1}\n")
 memo = dict()
-def hanoi(start, end, spare, k):
-    if (start, end, spare, k) in memo:
-        return memo[(start, end, spare, k)]
-    if k == 1:
-        memo[(start, end, spare, k)] = [f"{start} {end}"]
-        return memo[(start, end, spare, k)]
-    if (start, spare, end, k-1) in memo:
-        first = memo[(start, spare, end, k-1)]
-    else:
-        memo[(start, spare, end, k-1)] = hanoi(start, spare, end, k-1)
-    ans = []
-    ans += memo[(start, spare, end, k-1)]
-    ans.append(f"{start} {end}")
-    if (spare, end, start, k-1) in memo:
-        first = memo[(spare, end, start, k-1)]
-    else:
-        memo[(spare, end, start, k-1)] = hanoi(spare, end, start, k-1)
-    ans += memo[(spare, end, start, k-1)]
-    memo[(start, end, spare, k)] = ans
+def hanoi(start, end, spare, height):
+    if (start, end, spare, height) in memo:
+        return memo[(start, end, spare, height)]
+    if height == 1:
+        ans = f"{start} {end}\n"
+        memo[(start, end, spare, height)] = ans
+        return ans
+    ans = hanoi(start, spare, end, height - 1) + f"{start} {end}\n" + hanoi(spare, end, start, height - 1)
+    memo[(start, end, spare, height)] = ans
     return ans
-
-k = int(input())
-print(2**k - 1)
-print("\n".join(hanoi(1, 3, 2, k)))
+stdout.write(hanoi(1, 3, 2, n))
