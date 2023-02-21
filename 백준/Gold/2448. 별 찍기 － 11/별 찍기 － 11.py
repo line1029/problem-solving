@@ -8,6 +8,6 @@ while not n & 1:
     n //= 2
 for i in range(po):
     p1 = (" "*(3*2**i) + x + " "*(3*2**i) for x in pattern)
-    p2 = (" ".join(x) for x in zip(pattern, pattern))
+    p2 = (i + " " + i for i in pattern)
     pattern = [*p1, *p2]
 print("\n".join(pattern))
