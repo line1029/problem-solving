@@ -1,11 +1,9 @@
-# recursive sol
+# iterative sol
 n = int(input())
-def recursive(n):
-    if n == 1:
-        return ["*"]
-    return ["*"*(4*n - 3),
-            "*"+" "*(4*n - 5)+"*",
-            *map(lambda x: "* "+x+" *", recursive(n-1)),
-            "*"+" "*(4*n - 5)+"*",
-            "*"*(4*n - 3)]
-print(*recursive(n), sep="\n")
+for i in range(n - 1):
+    print("* "*i, "*"*(4*(n - i) - 3), " *"*i, sep="")
+    print("* "*(i + 1), " "*(4*(n - i - 1) - 3), " *"*(i + 1), sep="")
+print(" ".join(["*"]*(2*n - 1)))
+for i in range(n - 2, -1, -1):
+    print("* "*(i + 1), " "*(4*(n - i - 1) - 3), " *"*(i + 1), sep="")
+    print("* "*i, "*"*(4*(n - i) - 3), " *"*i, sep="")
