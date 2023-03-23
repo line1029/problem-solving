@@ -2,7 +2,7 @@ from sys import stdin
 input = stdin.readline
 n = int(input())
 graph = [[] for _ in range(n)]
-visited = []
+visited = set()
 for i in range(n):
     for idx, d in enumerate(map(int, input().split())):
         if d:
@@ -17,12 +17,12 @@ def backtracking(start_city, cur_city, cur_dist):
         return
     for nex_city, d in graph[cur_city]:
         if nex_city not in visited:
-            visited.append(nex_city)
+            visited.add(nex_city)
             backtracking(start_city, nex_city, cur_dist + d)
-            visited.remove(nex_city)
+            visited.discard(nex_city)
 for i in range(n):
-    visited.append(i)
+    visited.add(i)
     backtracking(i, i, 0)
-    visited.remove(i)
+    visited.discard(i)
 print(ans)
     
