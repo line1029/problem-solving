@@ -1,7 +1,6 @@
 from sys import stdin, stdout
+from operator import itemgetter
 n = int(stdin.readline())
-arr = [tuple(map(int, i.split())) for i in stdin.read().split("\n")]
-arr.pop()
-arr.sort(key=lambda x: (x[1], x[0]))
-for i in range(n):
-    stdout.write(f"{arr[i][0]} {arr[i][1]}\n")
+arr = [list(map(int, i.split())) for i in stdin.read().splitlines()]
+arr.sort(key=itemgetter(1, 0))
+stdout.write("\n".join(f"{i[0]} {i[1]}" for i in arr))
