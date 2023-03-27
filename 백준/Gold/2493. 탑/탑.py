@@ -1,4 +1,4 @@
-from sys import stdin, stdout
+from sys import stdin
 input = stdin.readline
 n = int(input())
 towers = map(int, reversed(input().split()))
@@ -10,4 +10,4 @@ for idx, height in enumerate(towers):
             ans[stack[-1][0]] = n - idx
             stack.pop()
     stack.append((n - idx - 1, height))
-stdout.write(" ".join(map(str, ans)))
+print(" ".join(map(str, ans)))
