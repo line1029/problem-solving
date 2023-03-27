@@ -1,5 +1,5 @@
 from sys import stdin
-s = stdin.readline()
+s = stdin.read().strip()
 ans = 0
 stack = 0
 for idx, char in enumerate(s):
