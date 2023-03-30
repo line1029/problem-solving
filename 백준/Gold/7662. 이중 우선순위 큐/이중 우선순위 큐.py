@@ -1,40 +1,44 @@
 from sys import stdin
-import heapq
-from collections import defaultdict
-for _ in range(int(stdin.readline())):
-    n = int(stdin.readline())
-    max_pq = []
-    min_pq = []
-    pq_log = defaultdict(int)
-    cnt = 0
-    for i in range(n):
-        action, num = stdin.readline().split()
-        if action == "D":
-            if not cnt:
-                continue
-            if num == "-1":
-                while not pq_log[min_pq[0]]:
-                    heapq.heappop(min_pq)
-                pq_log[heapq.heappop(min_pq)] -= 1
-            elif num == "1":
-                while not pq_log[-max_pq[0]]:
-                    heapq.heappop(max_pq)
-                pq_log[-heapq.heappop(max_pq)] -= 1
-            cnt -= 1
-            if not cnt:
-                max_pq = []
-                min_pq = []
+from heapq import heappop, heappush
+input = stdin.readline
+for _ in range(int(input())):
+    min_heap = []
+    max_heap = []
+    counter = dict()
+    total = 0
+    for _ in range(int(input())):
+        oper, num = input().split()
+        num = int(num)
+        if oper == "I":
+            heappush(min_heap, num)
+            heappush(max_heap, -num)
+            total += 1
+            if num in counter:
+                counter[num] += 1
+            else:
+                counter[num] = 1
         else:
-            num = int(num)
-            heapq.heappush(min_pq, num)
-            heapq.heappush(max_pq, -num)
-            pq_log[num] += 1
-            cnt += 1
-    if cnt:
-        while not pq_log[-max_pq[0]]:
-            heapq.heappop(max_pq)
-        while not pq_log[min_pq[0]]:
-            heapq.heappop(min_pq)
-        print(-max_pq[0], min_pq[0])
-    else:
+            if total == 0:
+                continue
+            if num == 1:
+                while counter[-max_heap[0]] == 0:
+                    heappop(max_heap)
+                counter[-heappop(max_heap)] -= 1
+            else:
+                while counter[min_heap[0]] == 0:
+                    heappop(min_heap)
+                counter[heappop(min_heap)] -= 1
+            total -= 1
+            if not total:
+                min_heap = []
+                max_heap = []
+    
+    
+    if not total:
         print("EMPTY")
+        continue
+    while counter[-max_heap[0]] == 0:
+        heappop(max_heap)
+    while counter[min_heap[0]] == 0:
+        heappop(min_heap)
+    print(-max_heap[0], min_heap[0])
