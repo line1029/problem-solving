@@ -30,9 +30,6 @@ while left or right:
                     passenger_on_board += 1
             else:
                 cur_time = max(right[-1][0], cur_time)
-        passenger_on_board = 0
-        cur_time += t
-        at_left = False
     else:
         while right and right[-1][0] <= cur_time and passenger_on_board < m:
             time, idx = right.pop()
@@ -47,7 +44,7 @@ while left or right:
                     passenger_on_board += 1
             else:
                 cur_time = max(left[-1][0], cur_time)
-        passenger_on_board = 0
-        cur_time += t
-        at_left = True
+    passenger_on_board = 0
+    cur_time += t
+    at_left = not at_left
 print("\n".join(map(str, ans)))
