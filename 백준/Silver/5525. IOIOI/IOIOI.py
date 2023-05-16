@@ -1,15 +1,22 @@
 from sys import stdin
 n = int(stdin.readline())
 m = int(stdin.readline())
-ioi = stdin.readline().rstrip().replace("II", "IOOI").split("OO")
-leng = 2*n + 1
+s = stdin.readline().rstrip()
+l, r = 0, 0
 cnt = 0
-for s in ioi:
-    k = len(s)
-    if not k:
-        continue
-    k -= (s[0] == "O") + (s[-1] == "O")
-    if k - leng < 0:
-        continue
-    cnt += (k - leng)//2 + 1
+while r < m and s[r] != "I":
+    r += 1
+l = r
+while r < m:
+    if r < m - 1 and ((s[r] == "I" and s[r+1]=="O") or (s[r] == "O" and s[r+1]=="I")):
+        r += 1
+    else:
+        if r == m-1:
+            break
+        while s[r] != "I" or (r < m-1 and s[r] == "I" and s[r+1]!="O"):
+            r += 1
+        l = r
+    if r - l == 2*n:
+        cnt += 1
+        l += 2
 print(cnt)
