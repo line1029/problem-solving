@@ -82,9 +82,9 @@ if ans > 3:
 
 path_idxs = (
     (((0, 1), ), ),
-    (((0, 1), (0, 2)),
-     ((0, 2), (1, 2)),
-     ((1, 2), (0, 1))),
+    (((0, 2), (0, 1)),
+     ((1, 2), (0, 2)),
+     ((0, 1), (1, 2))),
     (((0, 3), (0, 2), (0, 1)),
      ((2, 3), (0, 3), (0, 1)),
      ((0, 2), (2, 3), (0, 1)),
@@ -151,28 +151,4 @@ def dfs(depth, start_row, start_col, path):
                 for row_idx, pre, nex in swap_idxs:
                     grid[row_idx][pre], grid[row_idx][nex] = grid[row_idx][nex], grid[row_idx][pre]
 dfs(0, 1, 1, ())
-ans = [4]
-def brute_force(depth, start_row, start_col):
-    if depth >= 3:
-        return
-    
-    for row, col in product(range(start_row, h + 1), range(1, n)):
-        if row == start_row and col < start_col:
-            continue
-        if visited[row][col-1] == visited[row][col] == visited[row][col+1] == 0:
-            candidate = grid[row][col-1], grid[row][col]
-            swap_idxs = [(row_idx, i.index(candidate[0]), i.index(candidate[1])) for row_idx, i in enumerate(grid[row:], row)]
-            # print(depth, start_row, start_col, row, col)
-            for row_idx, pre, nex in swap_idxs:
-                grid[row_idx][pre], grid[row_idx][nex] = grid[row_idx][nex], grid[row_idx][pre]
-            # print("before_dfs: ", depth, grid)
-            if start == end:
-                ans[0] = min(ans[0], depth + 1)
-            brute_force(depth + 1, row, col + 2)
-            for row_idx, pre, nex in swap_idxs:
-                grid[row_idx][pre], grid[row_idx][nex] = grid[row_idx][nex], grid[row_idx][pre]
-            # print("after_dfs: ", depth, grid)
-
-brute_force(0, 1, 1)
-
-print(-1 if ans[0] == 4 else ans[0])
+print(-1)
