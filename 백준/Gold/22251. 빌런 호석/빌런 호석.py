@@ -10,22 +10,17 @@ INVERT_MAP = [
     [1, 5, 2, 2, 3, 2, 1, 4, 0, 1],
     [2, 4, 3, 1, 2, 1, 2, 3, 1, 0]
 ]
-from sys import stdin
-n, k, p, x = map(int, stdin.readline().split())
+n, k, p, x = map(int, input().split())
 ans = -1
-x = list(map(int, (k - len(str(x)))*"0" + str(x)))[::-1]
-goal = [0] * k
-for _ in range(n):
-    digit_idx = 0
-    digit_sum = goal[digit_idx] + 1
-    carry, digit= divmod(digit_sum, 10)
-    goal[digit_idx] = digit
-    while carry:
-        digit_idx += 1
-        digit_sum = goal[digit_idx] + carry
-        carry, digit= divmod(digit_sum, 10)
-        goal[digit_idx] = digit
-    needed_invert = sum(INVERT_MAP[i][j] for i, j in zip(goal, x))
+for i in range(1, n + 1):
+    needed_invert = 0
+    q1, q2 = x, i
+    for _ in range(k):
+        q1, r1 = divmod(q1, 10)
+        q2, r2 = divmod(q2, 10)
+        needed_invert += INVERT_MAP[r1][r2]
+        if not q1 and not q2:
+            break
     if needed_invert <= p:
         ans += 1
 print(ans)
