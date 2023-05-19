@@ -11,8 +11,9 @@ parent = dict()
 rank = defaultdict(int)
 # using path-splitting
 def _find(x):
-    while parent[x] != x:
-        x, parent[x] = parent[x], parent[parent[x]]
+    if parent[x] != x:
+        parent[x] = _find(parent[x])
+        return parent[x]
     return x
 
 
