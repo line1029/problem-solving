@@ -1,22 +1,23 @@
-from sys import stdin
+# Quad Tree
+from sys import stdin, stdout
+from itertools import islice
 n = int(stdin.readline())
-data = list(map(lambda x: x.strip(), stdin.readlines()))
-
+data = stdin.read().splitlines()
 ans = []
-def dfs(n, data):
-    if n == 1:
-        ans.append(data[0][0])
+def rec(row, col, m):
+    if m == 1:
+        ans.append(data[row][col])
         return
-    standard = data[0][0]
-    for i in range(n):
-        for j in range(n):
-            if standard != data[i][j]:
+    standard = data[row][col]
+    for i in range(row, row + m):
+        for j in range(col, col + m):
+            if data[i][j] != standard:
                 ans.append("(")
                 for k in range(2):
                     for l in range(2):
-                        dfs(n//2, [row[l*n//2:(l+1)*n//2] for row in data[k*n//2:(k+1)*n//2]])
+                        rec(row + k*m//2, col + l*m//2, m//2)
                 ans.append(")")
                 return
     ans.append(standard)
-dfs(n, data)
+rec(0, 0, n)
 print("".join(ans))
