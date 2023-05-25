@@ -9,15 +9,6 @@ for i in range(2, 100):
 primes = set(i for i in range(1000, 10000) if sieve[i])
 
 grid = dict()
-for prime in primes:
-    grid[prime] = []
-    for digit_num in range(4):
-        base = prime - (prime // 10**digit_num % 10) * 10**digit_num
-        for digit in range(10):
-            candidate = base + digit * 10**digit_num
-            if candidate != prime and candidate in primes:
-                grid[prime].append(candidate)
-
 def bfs(start, end):
     if start == end:
         return 0
@@ -27,6 +18,14 @@ def bfs(start, end):
     while queue:
         for _ in range(len(queue)):
             cur = queue.popleft()
+            if cur not in grid:
+                grid[cur] = []
+                for digit_num in range(4):
+                    base = cur - (cur // 10**digit_num % 10) * 10**digit_num
+                    for digit in range(10):
+                        candidate = base + digit * 10**digit_num
+                        if candidate != cur and candidate in primes:
+                            grid[cur].append(candidate)
             for nex in grid[cur]:
                 if nex == end:
                     return depth + 1
