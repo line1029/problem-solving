@@ -1,5 +1,5 @@
 # Thief - two pointer sliding window
-from sys import stdin
+from sys import stdin, stdout
 from itertools import islice
 ans = []
 for _ in range(int(stdin.readline())):
@@ -13,4 +13,4 @@ for _ in range(int(stdin.readline())):
             money += houses[j] - houses[j - m]
             cnt += money < k
     ans.append(cnt)
-print(*ans, sep="\n")
+stdout.write("\n".join(map(str,ans)))
