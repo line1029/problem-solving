@@ -7,15 +7,19 @@ from random import randint
 def miller_rabin(n, a):
     if n % a == 0:
         return False
-    
-    k = n - 1
-    while True:
-        tmp = pow(a, k, n)
+    r = 0
+    d = n - 1
+    while not d&1:
+        d >>= 1
+        r += 1
+    tmp = pow(a, d, n)
+    if tmp == 1 or tmp == n - 1:
+        return True
+    for _ in range(r - 1):
+        tmp = pow(tmp, 2, n)
         if tmp == n - 1:
             return True
-        if k&1:
-            return tmp == 1 or tmp == n - 1
-        k >>= 1
+    return False
 
 
 def is_prime(n):
