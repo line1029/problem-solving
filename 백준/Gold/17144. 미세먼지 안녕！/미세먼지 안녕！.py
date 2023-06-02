@@ -14,26 +14,19 @@ border.update((R, i) for i in range(C))
 border.update(((air_cleaner, 0), (air_cleaner+1, 0)))
 direc = ((-1, 0), (1, 0), (0, 1), (0, -1))
 total_dust = sum(sum(i) for i in grid) + 2
-step = 0
 for _ in range(T):
-    step -= 1
-    if not step:
-        break
-    if step < 0 and max(max(i) for i in grid) < 5:
-        step = 2 * (C + max(air_cleaner + 1, R - air_cleaner - 1)) - 4
-    if step < 0:
-        for i, j in product(range(R), range(C)):
-            dust = grid[i][j] // 5
-            if dust <= 0:
-                continue
-            for di, dj in direc:
-                ni, nj = i + di, j + dj
-                if (ni, nj) not in border:
-                    subgrid[ni][nj] += dust
-                    grid[i][j] -= dust
-        for i, j in product(range(R), range(C)):
-            grid[i][j] += subgrid[i][j]
-            subgrid[i][j] = 0
+    for i, j in product(range(R), range(C)):
+        dust = grid[i][j] // 5
+        if dust <= 0:
+            continue
+        for di, dj in direc:
+            ni, nj = i + di, j + dj
+            if (ni, nj) not in border:
+                subgrid[ni][nj] += dust
+                grid[i][j] -= dust
+    for i, j in product(range(R), range(C)):
+        grid[i][j] += subgrid[i][j]
+        subgrid[i][j] = 0
     
     tmp, grid[air_cleaner][1] = grid[air_cleaner][1], 0
     for j in range(2, C):
