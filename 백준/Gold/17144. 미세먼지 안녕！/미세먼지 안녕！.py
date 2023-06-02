@@ -7,12 +7,6 @@ for i, row in enumerate(grid):
     if row[0] == -1:
         air_cleaner = i
         break
-border = set((-1, i) for i in range(C))
-border.update((i, -1) for i in range(-1, R + 1))
-border.update((i, C) for i in range(-1, R + 1))
-border.update((R, i) for i in range(C))
-border.update(((air_cleaner, 0), (air_cleaner+1, 0)))
-direc = ((-1, 0), (1, 0), (0, 1), (0, -1))
 total_dust = sum(sum(i) for i in grid) + 2
 flag = False
 for _ in range(T):
@@ -23,12 +17,23 @@ for _ in range(T):
             if dust <= 0:
                 continue
             
-            for di, dj in direc:
-                ni, nj = i + di, j + dj
-                if (ni, nj) not in border:
-                    flag = False
-                    subgrid[ni][nj] += dust
-                    grid[i][j] -= dust
+            if i + 1 < R and grid[i + 1][j] != -1:
+                flag = False
+                subgrid[i + 1][j] += dust
+                grid[i][j] -= dust
+            if j + 1 < C and grid[i][j + 1] != -1:
+                flag = False
+                subgrid[i][j + 1] += dust
+                grid[i][j] -= dust
+            if i - 1 >= 0 and grid[i - 1][j] != -1:
+                flag = False
+                subgrid[i - 1][j] += dust
+                grid[i][j] -= dust
+            if j - 1 >= 0 and grid[i][j - 1] != -1:
+                flag = False
+                subgrid[i][j - 1] += dust
+                grid[i][j] -= dust
+
         for i, j in product(range(R), range(C)):
             grid[i][j] += subgrid[i][j]
             subgrid[i][j] = 0
