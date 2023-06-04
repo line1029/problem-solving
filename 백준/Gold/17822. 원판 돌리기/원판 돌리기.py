@@ -1,5 +1,4 @@
 from sys import stdin
-from collections import deque
 n, m, t = map(int, stdin.readline().split())
 direc = ((1, 0), (0, 1), (-1, 0), (0, -1))
 circles = []
@@ -15,19 +14,13 @@ for x, d, k in rotates:
         circles[i] = circles[i][r:] + circles[i][:r]
     for row in range(n):
         for col in range(m):
-            if (row, col) in visited:
-                continue
-            if not circles[row][col]:
-                continue
-            q = deque([(row, col)])
-            num = circles[row][col]
-            while q:
-                i, j = q.popleft()
-                for di, dj in direc:
-                    ni, nj = i + di, (j + dj)%m
-                    if 0 <= ni < n and 0 <= nj < m and (ni, nj) not in visited and circles[ni][nj] == num:
-                        visited.add((ni, nj))
-                        q.append((ni, nj))
+            if circles[row][col]:
+                if circles[row][col] == circles[row][col-1]:
+                    visited.add((row, col))
+                    visited.add((row, (col - 1)%m))
+                if row > 0 and circles[row][col] == circles[row - 1][col]:
+                    visited.add((row, col))
+                    visited.add((row - 1, col))
     if visited:
         for row, col in visited:
             _sum -= circles[row][col]
