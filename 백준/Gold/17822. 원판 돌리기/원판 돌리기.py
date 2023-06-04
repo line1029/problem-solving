@@ -3,16 +3,19 @@ from collections import deque
 n, m, t = map(int, stdin.readline().split())
 direc = ((1, 0), (0, 1), (-1, 0), (0, -1))
 circles = []
-visited = [[0]*m for _ in range(n)]
+visited = set()
 for _ in range(n):
-    circles.append(deque(map(int, stdin.readline().split())))
+    circles.append(list(map(int, stdin.readline().split())))
+_sum = sum(sum(i) for i in circles)
+_cnt = n*m
 rotates = map(lambda x:map(int, x.split()), stdin.read().splitlines())
 for x, d, k in rotates:
     for i in range(x-1, n, x):
-        circles[i].rotate((-2*d + 1)*k)
+        r = (2*d - 1)*k
+        circles[i] = circles[i][r:] + circles[i][:r]
     for row in range(n):
         for col in range(m):
-            if visited[row][col]:
+            if (row, col) in visited:
                 continue
             if not circles[row][col]:
                 continue
@@ -22,25 +25,26 @@ for x, d, k in rotates:
                 i, j = q.popleft()
                 for di, dj in direc:
                     ni, nj = i + di, (j + dj)%m
-                    if 0 <= ni < n and 0 <= nj < m and not visited[ni][nj] and circles[ni][nj] == num:
-                        visited[ni][nj] = 1
+                    if 0 <= ni < n and 0 <= nj < m and (ni, nj) not in visited and circles[ni][nj] == num:
+                        visited.add((ni, nj))
                         q.append((ni, nj))
-    if sum(sum(i) for i in visited):
-        for row in range(n):
-            for col in range(m):
-                if visited[row][col]:
-                    circles[row][col] = 0
-                    visited[row][col] = 0
+    if visited:
+        for row, col in visited:
+            _sum -= circles[row][col]
+            _cnt -= 1
+            circles[row][col] = 0
+        visited.clear()
     else:
-        cnt = n*m - sum(i.count(0) for i in circles)
-        if not cnt:
+        if not _cnt:
             continue
-        avg = sum(sum(i) for i in circles) / cnt
+        avg = _sum / _cnt
         for row in range(n):
             for col in range(m):
                 if circles[row][col]:
                     if circles[row][col] > avg:
+                        _sum -= 1
                         circles[row][col] -= 1
                     elif circles[row][col] < avg:
+                        _sum += 1
                         circles[row][col] += 1
-print(sum(sum(i) for i in circles))
+print(_sum)
