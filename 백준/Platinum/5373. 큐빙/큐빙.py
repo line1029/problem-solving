@@ -3,6 +3,7 @@ from itertools import islice
 SURFACE_INDEX_MAP = {"U":0, "D":1, "F":2, "B":3, "L":4, "R":5}
 ORIENTATION_MAP = {1:[[2, 5, 8], [8, 7, 6], [2, 5, 8], [0, 1, 2]],
                    0:[[0, 1, 2], [6, 3, 0], [8, 7, 6], [6, 3, 0]]}
+CUBE_ORDER = "wyrogb"
 def rotate(cube, surface: str, orientation: str) -> None:
     surface_idx = SURFACE_INDEX_MAP[surface]
     surface = cube[surface_idx]
@@ -34,14 +35,7 @@ def rotate(cube, surface: str, orientation: str) -> None:
 
 for _ in range(int(stdin.readline())):
     n = int(stdin.readline())
-    cube = [
-        ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
-        ['y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y'],
-        ['r', 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r'],
-        ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'],
-        ['g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g'],
-        ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b']
-    ]
+    cube = [list(i)*9 for i in CUBE_ORDER]
     for oper in stdin.readline().split():
         rotate(cube, *oper)
     print("\n".join("".join(islice(cube[0], i*3, i*3 +3)) for i in range(3)))
