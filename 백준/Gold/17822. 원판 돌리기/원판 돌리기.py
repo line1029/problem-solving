@@ -29,7 +29,7 @@ for x, d, k in rotates:
         visited.clear()
     else:
         if not _cnt:
-            continue
+            break
         avg = _sum / _cnt
         for row in range(n):
             for col in range(m):
