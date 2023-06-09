@@ -12,10 +12,11 @@ for i in range(3, int(sqrt(m)) + 1, 2):
         for j in range(i*i, m + 1, 2*i):
             if linear_sieve[j] == j:
                 linear_sieve[j] = i
+primes = {i:f"{i} " for i in range(m + 1) if linear_sieve[i]==i}
 ans = __pypy__.builders.StringBuilder()
 for num in nums:
     while num != 1:
-        ans.append(f"{linear_sieve[num]} ")
+        ans.append(primes[linear_sieve[num]])
         num //= linear_sieve[num]
     ans.append("\n")
 os.write(1, ans.build().encode())
