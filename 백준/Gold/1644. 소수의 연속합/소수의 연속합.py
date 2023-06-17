@@ -17,30 +17,12 @@ for i in range(6, int(n**.5) + 1, 6):
 primes = [i for i in range(2, n + 1) if sieve[i]]
 k = len(primes)
 ans = 0
-i = 0
-j = 1
-s = 2
-while i < k:
-    while j < k and s < n:
-        s += primes[j]
-        j += 1
+i = s = 0
+for j in primes:
+    s += j
+    while s > n:
+        s -= primes[i]
+        i += 1
     if s == n:
         ans += 1
-        if j >= k:
-            break
-        s += primes[j]
-        j += 1
-    else:
-        while s > n:
-            s -= primes[i]
-            i += 1
-        if s == n:
-            ans += 1
-            if j >= k:
-                break
-            s += primes[j]
-            j += 1
-        else:
-            if j >= k:
-                break
 print(ans)
