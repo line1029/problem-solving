@@ -1,6 +1,7 @@
-from sys import stdin, stdout
-n = int(stdin.readline())
-arr = list(map(int, stdin.readline().split()))
+import os, io, __pypy__
+input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline
+n = int(input())
+arr = list(map(int, input().split()))
 k = 2*n + 1
 radii = [0]*k
 right_edge = 0
@@ -28,11 +29,11 @@ for i in range(k):
             tmp += 1
             radii[i] += 1
         right_edge = tmp - 1
-m = int(stdin.readline())
-ans = []
-for s, e in map(lambda x: map(int, x.split()), stdin.read().splitlines()):
+m = int(input())
+ans = __pypy__.builders.StringBuilder()
+for s, e in map(lambda x: map(int, x.split()), (input() for _ in range(m))):
     if radii[s + e - 1] >= e - s + 1:
-        ans.append("1")
+        ans.append("1\n")
     else:
-        ans.append("0")
-stdout.write("\n".join(ans))
+        ans.append("0\n")
+os.write(1, ans.build().encode())
