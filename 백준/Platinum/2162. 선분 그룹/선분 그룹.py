@@ -33,6 +33,7 @@ def is_crossing(x1, y1, x2, y2, x3, y3, x4, y4):
                 return True
 
 
+
 def _find(x):
     if x != parent[x]:
         parent[x] = _find(parent[x])
@@ -51,12 +52,12 @@ def _union(x, y):
 
 n = int(stdin.readline())
 segments = list(map(lambda x: tuple(map(int, x.split())), stdin.read().splitlines()))
-parent = {i:i for i in segments}
-size = {i:1 for i in segments}
-for i in segments:
-    for j in segments:
-        if i != j and is_crossing(*i, *j) and is_crossing(*j, *i):
+parent = list(range(n))
+size = [1]*n
+for i in range(n - 1):
+    for j in range(i + 1, n):
+        if is_crossing(*segments[i], *segments[j]) and is_crossing(*segments[j], *segments[i]):
             _union(i, j)
-s = set(_find(x) for x in segments)
-print(len(s))
-print(max(size.values()))
+
+print(sum(i==parent[i] for i in range(n)))
+print(max(size))
