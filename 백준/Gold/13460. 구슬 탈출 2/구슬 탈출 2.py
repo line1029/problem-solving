@@ -50,6 +50,7 @@ def main():
                             else:
                                 nxr += 1
                     if not visited[nxr][yr][nxb][yb]:
+                        visited[nxr][yr][nxb][yb] = 1
                         q.append((nxr, yr, nxb, yb))
                 if dy:
                     nyr = yr + dy
@@ -81,6 +82,7 @@ def main():
                             else:
                                 nyr += 1
                     if not visited[xr][nyr][xb][nyb]:
+                        visited[nxr][yr][nxb][yb] = 1
                         q.append((xr, nyr, xb, nyb))
     print(-1)
 
