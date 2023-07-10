@@ -45,16 +45,14 @@ for i in range(1, n + 1):
             path_mat[i][j].append(j)
 ans = __pypy__.builders.StringBuilder()
 for i in range(1, n + 1):
-    for j in range(1, n + 1):
-        ans.append(f"{adj_mat[i][j]} ")
+    ans.append(" ".join(map(str, adj_mat[i][1:])))
     ans.append("\n")
 for i in range(1, n + 1):
     for j in range(1, n + 1):
         if path_mat[i][j]:
             ans.append(f"{len(path_mat[i][j])} ")
-            for k in path_mat[i][j]:
-                ans.append(f"{k} ")
+            ans.append(" ".join(map(str, path_mat[i][j])))
         else:
-            ans.append("0 ")
+            ans.append("0")
         ans.append("\n")
 os.write(1, ans.build().encode())
