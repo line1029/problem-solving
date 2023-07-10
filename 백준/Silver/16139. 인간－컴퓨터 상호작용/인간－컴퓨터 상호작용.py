@@ -12,6 +12,6 @@ for i in range(26):
 q = int(input())
 ans = __pypy__.builders.StringBuilder()
 for a, i, j in (input().split() for _ in range(q)):
-    a, i, j = sum(a) - 97, int(i), int(j)
+    a, i, j = int.from_bytes(a, "little") - 97, int(i), int(j)
     ans.append(f"{dp[a][j] - dp[a][i - 1]}\n")
 os.write(1, ans.build().encode())
