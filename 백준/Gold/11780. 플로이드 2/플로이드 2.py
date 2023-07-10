@@ -1,10 +1,10 @@
 import os, io, __pypy__
+# 어떻게 코드를 더 뺐는데 시간이 더 늘어나지..?
 input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline
 n, m = int(input()), int(input())
 INF = 10_000_001
 adj_mat = [[INF]*(n + 1) for _ in range(n + 1)]
 transit_mat = [[INF]*(n + 1) for _ in range(n + 1)]
-path_mat = [[[] for _ in range(n + 1)] for _ in range(n + 1)]
 for i in range(1, n + 1):
     adj_mat[i][i] = 0
 for _ in range(m):
@@ -22,10 +22,6 @@ for i in range(1, n + 1):
         if adj_mat[i][j] == INF:
             adj_mat[i][j] = 0
 
-for i in range(1, n + 1):
-    for j in range(1, n + 1):
-        if path_mat[i][j]:
-            path_mat[i][j].append(j)
 ans = __pypy__.builders.StringBuilder()
 for i in range(1, n + 1):
     ans.append(" ".join(map(str, adj_mat[i][1:])))
