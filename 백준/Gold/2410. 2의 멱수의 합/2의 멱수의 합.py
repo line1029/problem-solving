@@ -1,10 +1,9 @@
 n = int(input())
-dp = [1]*(n + 1)
+if n <= 2:
+    print(n)
+    exit()
 m = 1_000_000_000
-k = 2
-while k <= n:
-    for i in range(k, n + 1):
-        dp[i] += dp[i - k]
-        dp[i] %= m
-    k <<= 1
+dp = [1]*(n + 2)
+for i in range(2, n + 1, 2):
+    dp[i] = dp[i + 1] = (dp[i - 1] + dp[i >> 1])%m
 print(dp[n])
