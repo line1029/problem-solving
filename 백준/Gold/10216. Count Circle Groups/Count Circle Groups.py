@@ -14,8 +14,6 @@ for _ in range(int(stdin.readline())):
     for i in range(n - 1):
         for j in range(i + 1, n):
             if (x[i] - x[j])**2 + (y[i] - y[j])**2 <= (r[i] + r[j])**2:
-                a, b = find(i), find(j)
-                if a != b:
-                    parent[b] = a
+                parent[find(i)] = find(j)
     ans.append(sum(parent[i] == i for i in range(n)))
 print("\n".join(map(str, ans)))
