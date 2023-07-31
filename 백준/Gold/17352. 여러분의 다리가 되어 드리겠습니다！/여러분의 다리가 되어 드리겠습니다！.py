@@ -1,4 +1,4 @@
-import os, io
+import os, io, __pypy__
 input = io.BytesIO(os.read(0,os.fstat(0).st_size)).readline
 n = int(input())
 parent = list(range(n + 1))
@@ -12,8 +12,8 @@ for _ in range(n - 2):
         parent[a] = b
     else:
         parent[b] = a
-ans = []
+ans = __pypy__.builders.StringBuilder()
 for i in range(1, n + 1):
     if i == parent[i]:
-        ans.append(i)
-print(*ans)
+        ans.append(f"{i} ")
+os.write(1, ans.build().encode())
