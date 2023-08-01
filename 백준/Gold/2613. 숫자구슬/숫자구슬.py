@@ -1,28 +1,49 @@
 from sys import stdin
+from bisect import bisect_left
 def main():
     n, m = map(int, stdin.readline().split())
-    marbles = list(map(int, stdin.readline().split()))
-    psum = [0]
-    for mar in marbles:
-        psum.append(psum[-1] + mar)
-    dp = [[30001]*n for _ in range(m)]
-    nums = [[0]*n for _ in range(m)]
-    nums[0] = list(range(1, n + 1))
-    dp[0] = psum[1:]
-    for i in range(1, m):
-        dp[i][i] = max(dp[i - 1][i - 1], marbles[i])
-        nums[i][i] = 1
-        for j in range(i + 1, n):
-            for k in range(j - i + 1):
-                p = max(dp[i - 1][j - k - 1], dp[0][j] - dp[0][j - k - 1])
-                if dp[i][j] > p:
-                    dp[i][j] = p
-                    nums[i][j] = k + 1
+    arr = list(map(int, stdin.readline().split()))
+    def can_split(maxsum):
+        cnt = 0
+        num_groups = 1
+        for num in arr:
+            if cnt + num <= maxsum:
+                cnt += num
+            else:
+                cnt = num
+                num_groups += 1
+            if num_groups > m:
+                return False
+        return True
+    maxsum = bisect_left(list(range(sum(arr) + 1)), 1, lo=max(arr), key=can_split)
+    print(maxsum)
     ans = []
-    j = n - 1
-    for i in range(m - 1, -1, -1):
-        ans.append(nums[i][j])
-        j -= nums[i][j]
-    print(dp[-1][-1])
-    print(" ".join(map(str, reversed(ans))))
+    cur = 0
+    cnt = 0
+    for num in arr:
+        if cur + num <= maxsum:
+            cur += num
+            cnt += 1
+        else:
+            ans.append(cnt)
+            cur = num
+            cnt = 1
+    ans.append(cnt)
+    if len(ans) < m:
+        tmp = []
+        need = m - len(ans)
+        for idx, cnt in enumerate(ans):
+            if cnt > 1:
+                if cnt > need:
+                    tmp += [1]*need
+                    tmp.append(cnt - need)
+                    break
+                else:
+                    tmp += [1]*cnt
+                    need -= cnt - 1
+            else:
+                tmp.append(cnt)
+        tmp += ans[idx + 1:]
+        ans = tmp
+    print(*ans)
 main()
