@@ -2,8 +2,6 @@ import io, os
 from sys import setrecursionlimit
 input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline
 n = int(input())
-if n > 34:
-    setrecursionlimit(n*n + 1)
 grid = []
 for _ in range(n):
     grid.append(list(map(int, input().split())))
