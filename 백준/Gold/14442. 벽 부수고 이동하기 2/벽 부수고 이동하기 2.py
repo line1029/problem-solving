@@ -6,24 +6,37 @@ n, m, k = map(int, stdin.readline().split())
 if n == m == 1:
     print(1)
     exit()
-grid = []
-for _ in range(n):
+m += 2
+grid = [2]*m
+visited = [k + 1]*(m*(n + 2))
+visited[:m] = [-1]*m
+visited[-m:] = [-1]*m
+for i in range(n):
+    grid.append(2)
     grid.extend(map(int, stdin.readline().strip()))
-visited = [k + 1]*(m*n)
-q = deque([[0, 0, 0]])
+    grid.append(2)
+    visited[m*(i + 1)] = visited[m*(i + 2) - 1] = -1
+grid += [2]*m
+q = deque([[m + 1, 0]])
+end = m*(n + 1) - 2
 for step in range(m*n + 1):
     if not q:
         break
     for _ in range(len(q)):
-        i, j, eli = q.popleft()
-        for di, dj in D:
-            ni, nj = i + di, j + dj
-            if 0 <= ni < n and 0 <= nj < m:
-                if eli + grid[ni*m + nj] > k: continue
-                if visited[ni*m + nj] > eli + grid[ni*m + nj]:
-                    if ni == n - 1 and nj == m - 1:
-                        print(step + 2)
-                        exit()
-                    visited[ni*m + nj] = eli + grid[ni*m + nj]
-                    q.append((ni, nj, eli + grid[ni*m + nj]))
+        cur, eli = q.popleft()
+        if cur == end:
+            print(step + 1)
+            exit()
+        if visited[cur - 1] > eli + grid[cur - 1]:
+            visited[cur - 1] = eli + grid[cur - 1]
+            q.append((cur - 1, eli + grid[cur - 1]))
+        if visited[cur + 1] > eli + grid[cur + 1]:
+            visited[cur + 1] = eli + grid[cur + 1]
+            q.append((cur + 1, eli + grid[cur + 1]))
+        if visited[cur + m] > eli + grid[cur + m]:
+            visited[cur + m] = eli + grid[cur + m]
+            q.append((cur + m, eli + grid[cur + m]))
+        if visited[cur - m] > eli + grid[cur - m]:
+            visited[cur - m] = eli + grid[cur - m]
+            q.append((cur - m, eli + grid[cur - m]))
 print(-1)
