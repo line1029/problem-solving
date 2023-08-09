@@ -1,15 +1,14 @@
-import io, os
-input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline
+from sys import stdin
 from collections import deque
 D = ((0, 1), (0, -1), (1, 0), (-1, 0))
 INF = 1000001
-n, m, k = map(int, input().split())
+n, m, k = map(int, stdin.readline().split())
 if n == m == 1:
     print(1)
     exit()
 grid = []
 for _ in range(n):
-    grid += list(map(lambda x: x - 48, input().strip()))
+    grid.extend(map(int, stdin.readline().strip()))
 visited = [k + 1]*(m*n)
 q = deque([[0, 0, 0]])
 for step in range(m*n + 1):
