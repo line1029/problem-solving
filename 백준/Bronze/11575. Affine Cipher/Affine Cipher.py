@@ -1,10 +1,15 @@
-from sys import stdin
+from sys import stdin, stdout
 def main():
-    t = int(stdin.readline())
-    ans = [""]*t
-    for i in range(t):
-        a, b = (map(int, stdin.readline().split()))
-        ans[i] = "".join(map(lambda x: chr((a*(ord(x) - 65) + b)%26 + 65), stdin.readline().strip()))
-    print("\n".join(ans))
-
+    ans = []
+    origin = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    for _ in range(int(stdin.readline())):
+        a, b = map(int, stdin.readline().split())
+        a %= 26
+        b %= 26
+        t = str.maketrans(
+            origin,
+            "".join(origin[(a*i + b)%26] for i in range(26))
+        )
+        ans.append(stdin.readline().translate(t))
+    stdout.write("".join(ans))
 main()
