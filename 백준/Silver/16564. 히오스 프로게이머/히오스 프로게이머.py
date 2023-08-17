@@ -6,7 +6,7 @@ def main():
     for i in range(n):
         arr[i] = int(input())
     arr.sort()
-    lo, hi = 0, 2_000_000_000
+    lo, hi = 0, arr[-1] + k
     while lo < hi:
         mid = (lo + hi + 1) >> 1
         flag = True
