@@ -1,4 +1,4 @@
-import io,os
+import io, os
 input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline
 def main():
     n, k = map(int, input().split())
@@ -6,19 +6,15 @@ def main():
     for i in range(n):
         arr[i] = int(input())
     arr.sort()
-    lo, hi = 0, arr[-1] + k
-    while lo < hi:
-        mid = (lo + hi + 1) >> 1
-        tmp_k = k
-        for i in range(n):
-            if arr[i] > mid:
-                lo = mid
-                break
-            tmp_k -= (mid - arr[i])
-            if tmp_k < 0:
-                hi = mid - 1
-                break
+    ans = arr[0]
+    for i in range(1, n):
+        if (arr[i] - arr[i - 1])*i <= k:
+            ans = arr[i]
+            k -= (arr[i] - arr[i - 1])*i
         else:
-            lo = mid
-    print(lo)
+            ans += k//i
+            break
+    else:
+        ans += k//n
+    print(ans)
 main()
