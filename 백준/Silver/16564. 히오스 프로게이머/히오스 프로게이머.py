@@ -1,5 +1,5 @@
 import io,os
-input = io.BytesIO(os.read(0,os.fstat(0).st_size)).readline
+input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline
 def main():
     n, k = map(int, input().split())
     arr = [0]*n
@@ -9,17 +9,16 @@ def main():
     lo, hi = 0, arr[-1] + k
     while lo < hi:
         mid = (lo + hi + 1) >> 1
-        flag = True
         tmp_k = k
         for i in range(n):
-            if arr[i] > mid: break
+            if arr[i] > mid:
+                lo = mid
+                break
             tmp_k -= (mid - arr[i])
             if tmp_k < 0:
-                flag = False
+                hi = mid - 1
                 break
-        if flag:
-            lo = mid
         else:
-            hi = mid - 1
+            lo = mid
     print(lo)
 main()
