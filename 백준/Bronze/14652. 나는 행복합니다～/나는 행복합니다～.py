@@ -1,0 +1,1 @@
+print(*divmod(*list(map(int,input().split()))[:0:-1]))
