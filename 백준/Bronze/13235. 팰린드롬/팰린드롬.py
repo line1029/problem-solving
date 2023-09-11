@@ -1,0 +1,1 @@
+print("true" if (x:= input())==x[::-1] else "false")
