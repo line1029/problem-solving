@@ -1,0 +1,1 @@
+z=input().split();print(int(z[0],int(z[1])))
