@@ -1,4 +1,7 @@
-from sys import stdin, stdout
-stdin.readline()
-arr = map(lambda x: str(sum(map(int, x.split()))), stdin.read().splitlines())
-stdout.write("\n".join(arr))
+import sys
+n = int(sys.stdin.readline())
+data = [None] * n
+for i in range(n):
+    data[i] = str(sum(map(int, sys.stdin.readline().split())))
+
+print("\n".join(data))
