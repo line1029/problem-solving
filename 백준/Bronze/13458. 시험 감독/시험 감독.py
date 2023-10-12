@@ -1,9 +1,8 @@
-from sys import stdin
-n = int(stdin.readline())
-arr = map(int, stdin.readline().split())
-b, c = map(int, stdin.readline().split())
-ans = 0
-for need in arr:
-    need = max(0, need - b)
-    ans += need//c + (need%c != 0) + 1
+n = int(input())
+arr = list(map(int, input().split()))
+b, c = map(int, input().split())
+ans = n
+for i in arr:
+    if i > b:
+        ans += (i - b) // c + (((i - b) % c) != 0)
 print(ans)
