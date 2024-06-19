@@ -1,4 +1,4 @@
-import sys
-n = int(sys.stdin.readline())
-for i in range(n):
-    print(" " * (n - i - 1) + "*" * (i + 1))
+from sys import stdin
+
+n = int(stdin.readline())
+print("\n".join(f"{i*'*':>{n}}" for i in range(1, n + 1)))
