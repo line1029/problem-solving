@@ -1,8 +1,6 @@
 from sys import stdin, stdout
-def order(x):
-    x = x.split()
-    return int(x[1]), int(x[0])
-stdin.readline()
-arr = stdin.read().splitlines()
-arr.sort(key=order)
-stdout.write("\n".join(arr))
+
+n = int(stdin.readline())
+dots = sorted(map(lambda x: list(map(int, x.split())), stdin.readlines()), key=lambda x: (x[1], x[0]))
+
+stdout.write("\n".join(" ".join(map(str, x)) for x in dots))
