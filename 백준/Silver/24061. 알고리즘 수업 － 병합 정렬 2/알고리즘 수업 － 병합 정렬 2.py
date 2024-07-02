@@ -45,6 +45,7 @@ def merge(array, p, q, r):
         step[0] += 1
         if step[0] == k:
             stdout.write(" ".join(map(str, array)))
+            exit()
 
 
 merge_sort(arr, 0, n - 1)
