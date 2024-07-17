@@ -1,22 +1,13 @@
 from sys import stdin
 from collections import Counter
-input = stdin.readline
-n, m = map(int, input().split())
-trees = list(map(int, input().split()))
-tt = Counter(trees)
-lo, hi = 0, 10**9
-def is_good(num, tt, m):
-    res = 0
-    for h, cnt in tt.items():
-        if h > num:
-            res += (h - num)*cnt
-        if res >= m:
-            return True
-    return False
-while lo <= hi:
-    mi = (lo + hi)//2
-    if is_good(mi, tt, m):
-        lo = mi + 1
+n, m = map(int, stdin.readline().split())
+trees = Counter(map(int, stdin.readline().split()))
+
+lo, hi = 0, max(1_000_000_000, max(trees))
+while lo < hi:
+    mid = (lo + hi + 1) >> 1
+    if sum((i - mid) * v for i, v in trees.items() if mid < i) >= m:
+        lo = mid
     else:
-        hi = mi - 1
-print(hi)
+        hi = mid - 1
+print(lo)
