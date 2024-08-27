@@ -11,5 +11,6 @@ for _ in range(int(stdin.readline())):
         if j < cur:
             ans += 1
             cur = j
+        if cur == 1: break
     res.append(ans)
 stdout.write("\n".join(map(str, res)))
