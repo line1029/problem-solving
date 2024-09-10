@@ -1,36 +1,48 @@
-from functools import lru_cache
 import operator
 
 def solution(arr):
-    oper_map = {
-        "+": operator.add,
-        "-": operator.sub
-    }
-    arr = list(map(lambda x: oper_map[x] if x in oper_map else int(x), arr))
+    operation_map = [
+        "+",
+        "-"
+    ]
+    # arr = ["5", "-", "3", "+", "1", "+", "2", "-", "4"]
+    arr = list(map(lambda x: int(x) if x not in operation_map else x, arr))
+    # arr = [5, "-", 3, "+", 1, "+", 2, "-", 4]
+    n = len(arr)
+    INF = 1_000_000
+    dp_max = [[-INF] * n for _ in range(n)]
+    dp_min = [[INF] * n for _ in range(n)]
+    for i in range(0, n + 1, 2):
+        dp_max[i][i] = arr[i]
+        dp_min[i][i] = arr[i]
     
-    @lru_cache(maxsize=None)
     def dp(start, end, is_max=True):
-        if start == end:
-            return arr[start]
-        if not is_max:
+        if is_max:
+            if dp_max[start][end] != -INF:
+                return dp_max[start][end]
+            ans = -INF
+            for mid in range(start, end, 2):
+                if arr[mid + 1] == "+":
+                    ans = max(ans, (dp(start, mid) + dp(mid + 2, end)))
+                else:
+                    ans = max(ans, (dp(start, mid) - dp(mid + 2, end, False)))
+            dp_max[start][end] = ans
+            return ans
+        else:
+            if dp_min[start][end] != INF:
+                return dp_min[start][end]
             stack = []
             cur = arr[start]
-            for i in range(start, end, 2):
-                if arr[i + 1] is operator.add:
-                    cur += arr[i + 2]
+            for idx in range(start, end, 2):
+                if arr[idx + 1] == "+":
+                    cur += arr[idx + 2]
                 else:
                     stack.append(cur)
-                    cur = arr[i + 2]
+                    cur = arr[idx + 2]
             stack.append(cur)
-            return 2 * stack[0] - sum(stack)
-        ans = - 101000
-        for mid in range(start, end, 2):
-            ans = max(
-                ans,
-                arr[mid + 1](dp(start, mid), dp(mid + 2, end)),
-                arr[mid + 1](dp(start, mid), dp(mid + 2, end, False))
-            )
-                
-        return ans
-    return dp(0, len(arr) - 1)
+            ans = 2 * stack[0] - sum(stack)
+            dp_min[start][end] = ans
+            return ans
             
+    return dp(0, n - 1)
+    
