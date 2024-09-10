@@ -1,4 +1,5 @@
-from sys import stdin
+from sys import stdin, setrecursionlimit
+setrecursionlimit(10**5)
 n = int(stdin.readline())
 graph = [None]*(n+1)
 visited = [0]*(n+1)
