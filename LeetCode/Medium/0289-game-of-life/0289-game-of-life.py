@@ -1,5 +1,5 @@
 class Solution:
-    def gameOfLife(self, board: List[List[int]]) -> None:
+    def gameOfLife(self, board):
         m, n = len(board), len(board[0])
         D = [[-1, 0], [-1, -1], [0, -1], [1, -1], [1, 0], [1, 1], [0, 1], [-1, 1]]
         for i in range(m):
