@@ -1,10 +1,12 @@
+from functools import cmp_to_key
+def compare(x:str, y:str):
+    if x + y > y + x:
+        return -1
+    return 0
+
 def solution(numbers):
-    """
-    ["3", "34", "33", "32", "343", "3434"]
-    -> "3434", "34", "343", "33", "3", "32"
-    """
     numbers = list(map(str, numbers))
-    numbers.sort(key=lambda x: (x*4)[:4], reverse=True)
+    numbers.sort(key=cmp_to_key(compare))
     if not int(numbers[0]):
         return "0"
     return "".join(numbers)
