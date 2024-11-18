@@ -13,7 +13,7 @@ def main():
     ans = 0
     for idx_c in c:
         if not b or b[0] > idx_c:
-            break
+            continue
         b.popleft()
         ans += 1
     for idx_a in reversed(a):
